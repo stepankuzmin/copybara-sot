@@ -55,8 +55,9 @@ core.workflow(
     origin_files = glob(PR_INCLUDE, exclude = PR_EXCLUDE),
     destination_files = glob(PUSH_INCLUDE, exclude = PUSH_EXCLUDE),
     transformations = [
-        metadata.save_author("ORIGINAL_AUTHOR"),
-        metadata.expose_label("GITHUB_PR_NUMBER", new_name = "Closes", separator = DESTINATION_REPO.replace("git@github.com:", " ").replace(".git", "#")),
         core.move("", "project"),
+
+        metadata.save_author("ORIGINAL_AUTHOR"),
+        metadata.expose_label("GITHUB_PR_NUMBER", new_name = "Closes: ", separator = DESTINATION_REPO.replace("https://github.com/", " ").replace(".git", "#")),
     ]
 )
