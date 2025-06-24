@@ -1,6 +1,6 @@
 # Copybara Dst ☘️
 
-[![Copybara](https://github.com/stepankuzmin/copybara-dst/actions/workflows/copybara.yml/badge.svg)](https://github.com/stepankuzmin/copybara-dst/actions/workflows/copybara.yml)
+[![CI](https://github.com/stepankuzmin/copybara-dst/actions/workflows/ci.yml/badge.svg)](https://github.com/stepankuzmin/copybara-dst/actions/workflows/ci.yml)
 
 This is a simple Copybara configuration for a monorepo project.
 
