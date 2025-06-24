@@ -14,7 +14,7 @@ PUSH_EXCLUDE = []
 
 # what can be read in the destination PR
 PR_INCLUDE = ["**"]
-PR_EXCLUDE = [PROJECT_DIR + "/copy.bara.sky", ".github/**"]
+PR_EXCLUDE = ["copy.bara.sky", ".github/workflows/copybara.yml"]
 
 # what can be modified in SoT repo via PR
 PR_DESTINATION_INCLUDE = [PROJECT_DIR + "/**"]
