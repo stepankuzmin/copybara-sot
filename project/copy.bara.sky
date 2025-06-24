@@ -36,6 +36,7 @@ core.workflow(
     origin_files = glob(PUSH_INCLUDE, exclude = PUSH_EXCLUDE),
     transformations = [
         core.move(PROJECT_DIR, ""),
+        core.move(".github/workflows/project-ci.yml", ".github/workflows/ci.yml"),
         metadata.scrubber("\\(#", replacement = "(internal-"), # replace "#PR" with "internal-PR"
         metadata.expose_label("COPYBARA_INTEGRATE_REVIEW"),
         metadata.restore_author("ORIGINAL_AUTHOR", search_all_changes = True),
@@ -63,6 +64,7 @@ core.workflow(
     destination_files = glob(PR_DESTINATION_INCLUDE, exclude = PR_DESTINATION_EXCLUDE),
     transformations = [
         core.move("", PROJECT_DIR),
+        core.move(".github/workflows/ci.yml", ".github/workflows/project-ci.yml"),
         metadata.replace_message("${GITHUB_PR_TITLE}\n\n${GITHUB_PR_BODY}\n\nCloses: ${GITHUB_PR_URL}"),
         metadata.save_author("ORIGINAL_AUTHOR"),
     ]
