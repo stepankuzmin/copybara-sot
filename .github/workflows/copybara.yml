@@ -3,6 +3,7 @@ name: Copybara
 on:
   push:
   pull_request_target:
+    types: [opened, synchronize, reopened, edited]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
