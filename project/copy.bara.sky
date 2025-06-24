@@ -53,7 +53,7 @@ core.workflow(
     set_rev_id = False,
     authoring = authoring.pass_thru(COMMITTER),
     origin_files = glob(PR_INCLUDE, exclude = PR_EXCLUDE),
-    destination_files = glob(["project/**"], exclude = ["project/copy.bara.sky", ".github/**"]),
+    destination_files = glob(["project/**"]),
     transformations = [
         core.move("", "project"),
 
