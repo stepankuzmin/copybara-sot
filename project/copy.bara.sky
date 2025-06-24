@@ -63,8 +63,8 @@ core.workflow(
     origin_files = glob(PR_ORIGIN_INCLUDE, exclude = PR_ORIGIN_EXCLUDE),
     destination_files = glob(PR_DESTINATION_INCLUDE, exclude = PR_DESTINATION_EXCLUDE),
     transformations = [
+        core.move("", PROJECT_DIR, paths = glob(["**"], exclude = [".github/**"])),
         core.move(".github/workflows/ci.yml", ".github/workflows/project-ci.yml"),
-        core.move("", PROJECT_DIR),
         metadata.replace_message("${GITHUB_PR_TITLE}\n\n${GITHUB_PR_BODY}\n\nCloses: ${GITHUB_PR_URL}"),
         metadata.save_author("ORIGINAL_AUTHOR"),
     ]
