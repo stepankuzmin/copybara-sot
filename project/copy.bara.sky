@@ -9,16 +9,16 @@ COMMITTER = "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
 PROJECT_DIR = "project"
 
 # what can be pushed to the destination repo
-PUSH_INCLUDE = ["${PROJECT_DIR}/**", ".github/workflows/copybara.yml"]
+PUSH_INCLUDE = [PROJECT_DIR + "/**", ".github/workflows/copybara.yml"]
 PUSH_EXCLUDE = []
 
 # what can be read in the destination PR
 PR_INCLUDE = ["**"]
-PR_EXCLUDE = ["${PROJECT_DIR}/copy.bara.sky", ".github/**"]
+PR_EXCLUDE = [PROJECT_DIR + "/copy.bara.sky", ".github/**"]
 
 # what can be modified in SoT repo via PR
-PR_DESTINATION_INCLUDE = ["${PROJECT_DIR}/**"]
-PR_DESTINATION_EXCLUDE = ["${PROJECT_DIR}/copy.bara.sky"]
+PR_DESTINATION_INCLUDE = [PROJECT_DIR + "/**"]
+PR_DESTINATION_EXCLUDE = [PROJECT_DIR + "/copy.bara.sky"]
 
 # Push workflow: monorepo to public repo
 core.workflow(
