@@ -2,6 +2,8 @@ name: Copybara Push
 
 on:
   push:
+    paths:
+      - project/**
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
