@@ -1,21 +1,13 @@
-name: Copybara
+name: Copybara PR
 
 on:
-  push:
-  pull_request_target:
-    types: [opened, synchronize, reopened, edited]
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  repository_dispatch:
+    types:
+      - pull_request_target
 
 jobs:
-  push:
+  pr:
     runs-on: ubuntu-latest
-    if: |
-      github.event_name == 'push' &&
-      github.repository == 'stepankuzmin/copybara-sot' &&
-      github.ref_name == github.event.repository.default_branch
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -48,12 +40,9 @@ jobs:
           echo "https://x-access-token:${{ secrets.GH_TOKEN }}@github.com" > ~/.git-credentials
 
       - name: Check
-        run: java -jar copybara.jar validate project/copy.bara.sky
+        run: java -jar copybara.jar validate copy.bara.sky
 
       - name: Copybara Push
         run: |
-          java -jar copybara.jar migrate project/copy.bara.sky push \
-            --git-credential-helper-store-file=$HOME/.git-credentials \
-            --ignore-noop \
-            --force \
-            --init-history
+          java -jar copybara.jar migrate copy.bara.sky pr ${{ github.event.client_payload.number }}" \
+            --git-credential-helper-store-file=$HOME/.git-credentials
