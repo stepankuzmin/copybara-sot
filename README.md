@@ -1,6 +1,6 @@
 # Copybara SoT ⭐️
 
-[![Copybara SoT](https://github.com/stepankuzmin/copybara-sot/actions/workflows/copybara.yml/badge.svg)](https://github.com/stepankuzmin/copybara-sot/actions/workflows/copybara.yml)
+[![Copybara SoT](https://github.com/stepankuzmin/copybara-sot/actions/workflows/project-copybara-push.yml/badge.svg)](https://github.com/stepankuzmin/copybara-sot/actions/workflows/copybara.yml)
 
 This is a simple Copybara configuration for a monorepo project.
 
