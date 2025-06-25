@@ -4,7 +4,7 @@
 
 This is a simple Copybara configuration for a monorepo project. Please see [README.md](https://github.com/stepankuzmin/copybara-sot/tree/main?tab=readme-ov-file) for more details.
 
-This repo acts as a destination repo, aka "public repo".
+This repo acts as a destination repo, aka "public repo". Every PR in this repo will be transformed and transferred to the [SoT](https://github.com/stepankuzmin/copybara-sot) repo.
 
 ## Pre-requisite
 
