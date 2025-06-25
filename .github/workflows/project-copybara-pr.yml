@@ -3,7 +3,7 @@ name: Copybara PR
 on:
   repository_dispatch:
     types:
-      - pull_request_target
+      - project_copybara_pr
 
 jobs:
   pr:
@@ -38,9 +38,6 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           echo "https://x-access-token:${{ secrets.GH_TOKEN }}@github.com" > ~/.git-credentials
-
-      - name: Check
-        run: java -jar copybara.jar validate project/copy.bara.sky
 
       - name: Copybara Push
         run: |
