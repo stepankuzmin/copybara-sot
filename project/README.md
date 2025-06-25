@@ -4,6 +4,8 @@
 
 This is a simple Copybara configuration for a monorepo project. Please see [README.md](https://github.com/stepankuzmin/copybara-sot/tree/main?tab=readme-ov-file) for more details.
 
+This repo acts as a destination repo, aka "public repo".
+
 ## Pre-requisite
 
 - [GitHub Personal access token](https://github.com/settings/tokens) with `repo` permissions
