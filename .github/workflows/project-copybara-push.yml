@@ -3,7 +3,8 @@ name: Copybara Push
 on:
   push:
     paths:
-      - project/**
+      - "project/**"
+      - "!project/copy.bara.sky"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
