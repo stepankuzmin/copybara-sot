@@ -2,6 +2,9 @@ name: CI
 
 on:
   push:
+    paths:
+      - "project/**"
+      - "!project/copy.bara.sky"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
