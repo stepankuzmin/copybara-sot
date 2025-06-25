@@ -14,11 +14,11 @@ PUSH_EXCLUDE = [PROJECT_DIR + "/copy.bara.sky"]
 
 # what can be read in the destination PR
 PR_ORIGIN_INCLUDE = ["**"]
-PR_ORIGIN_EXCLUDE = []
+PR_ORIGIN_EXCLUDE = [".github/**"]
 
 # what can be modified in SoT repo via PR
 PR_DESTINATION_INCLUDE = [PROJECT_DIR + "/**"]
-PR_DESTINATION_EXCLUDE = [PROJECT_DIR + "/copy.bara.sky"]
+PR_DESTINATION_EXCLUDE = [PROJECT_DIR + "/copy.bara.sky", PROJECT_DIR + "/.github/**"]
 
 # Push workflow: monorepo to public repo
 core.workflow(
