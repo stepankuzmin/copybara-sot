@@ -44,5 +44,5 @@ jobs:
 
       - name: Copybara Push
         run: |
-          java -jar copybara.jar migrate project/copy.bara.sky pr ${{ github.event.client_payload.number }}" \
+          java -jar copybara.jar migrate project/copy.bara.sky pr ${{ github.event.client_payload.number }} \
             --git-credential-helper-store-file=$HOME/.git-credentials
