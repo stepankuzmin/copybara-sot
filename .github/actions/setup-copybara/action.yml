@@ -1,0 +1,30 @@
+name: Setup Copybara
+description: Sets up Java and downloads the specified version of Copybara
+
+inputs:
+  version:
+    description: Copybara version from https://github.com/google/copybara/releases
+    required: false
+    default: 'v20250623'
+
+runs:
+  using: composite
+  steps:
+    - name: Set up Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '21'
+
+    - name: Cache
+      uses: actions/cache@v4
+      with:
+        path: copybara.jar
+        key: copybara-${{ inputs.version }}
+
+    - name: Download Copybara
+      shell: bash
+      run: |
+        if [ ! -f copybara.jar ]; then
+          wget https://github.com/google/copybara/releases/download/${{ inputs.version }}/copybara_deploy.jar -O copybara.jar
+        fi

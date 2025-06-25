@@ -19,23 +19,8 @@ jobs:
         with:
           fetch-depth: 0 # Copybara needs full history
 
-      - name: Set up Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '21'
-
-      - name: Cache
-        uses: actions/cache@v4
-        with:
-          path: copybara.jar
-          key: copybara-v20250623
-
-      - name: Download Copybara
-        run: |
-          if [ ! -f copybara.jar ]; then
-            wget https://github.com/google/copybara/releases/download/v20250623/copybara_deploy.jar -O copybara.jar
-          fi
+      - name: Setup Copybara
+        uses: ./.github/actions/setup-copybara
 
       - name: Validate
         run: java -jar copybara.jar validate project/copy.bara.sky
