@@ -3,6 +3,8 @@ name: Copybara PR
 on:
   pull_request_target:
     types: [opened, synchronize, reopened, edited]
+    paths:
+      - "!.github/**"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -13,9 +15,12 @@ jobs:
     runs-on: ubuntu-latest
     if: github.repository == 'stepankuzmin/copybara-dst'
     steps:
-      - run: |
-          curl -X POST \
-          -H "Accept: application/vnd.github+json" \
-          -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
-          https://api.github.com/repos/stepankuzmin/copybara-sot/dispatches \
-            -d '{"event_type": "project_copybara_pr", "client_payload": {"number": "${{ github.event.pull_request.number }}"}}'
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            await github.rest.repos.createDispatchEvent({
+              owner: 'stepankuzmin',
+              repo: 'copybara-sot',
+              event_type: 'project_copybara_pr',
+              client_payload: { number: "${{ github.event.pull_request.number }}" }
+            })
