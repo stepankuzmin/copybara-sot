@@ -1,9 +1,12 @@
 name: Copybara PR
 
 on:
-  repository_dispatch:
-    types:
-      - project_copybara_pr
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: Pull request number from destination repository
+        required: true
+        type: string
 
 jobs:
   pr:
@@ -24,7 +27,7 @@ jobs:
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           echo "https://x-access-token:${{ secrets.GH_TOKEN }}@github.com" > ~/.git-credentials
 
-      - name: Copybara Push
+      - name: Copybara PR
         run: |
-          java -jar copybara.jar migrate project/copy.bara.sky pr ${{ github.event.client_payload.number }} \
+          java -jar copybara.jar migrate project/copy.bara.sky pr ${{ inputs.pr_number }} \
             --git-credential-helper-store-file=$HOME/.git-credentials

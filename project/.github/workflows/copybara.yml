@@ -19,9 +19,12 @@ jobs:
         with:
           github-token: ${{secrets.GH_TOKEN}}
           script: |
-            await github.rest.repos.createDispatchEvent({
+            await github.rest.actions.createWorkflowDispatch({
               owner: 'stepankuzmin',
               repo: 'copybara-sot',
-              event_type: 'project_copybara_pr',
-              client_payload: { number: "${{ github.event.pull_request.number }}" }
+              workflow_id: 'project-copybara-pr.yml',
+              ref: 'main',
+              inputs: {
+                pr_number: '${{ github.event.pull_request.number }}'
+              }
             })
