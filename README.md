@@ -16,6 +16,16 @@ The repository uses Google's [Copybara](https://github.com/google/copybara/) to 
 
 ## Architecture
 
+### Project Structure
+
+The `project/` folder contains a sample TypeScript project that is synchronized between repositories. Everything in the `project/` folder (except `copy.bara.sky`) is synchronized to the root of the [destination repository](https://github.com/stepankuzmin/copybara-dst).
+
+**Bidirectional flow**:
+  - Changes to files in `project/` are pushed to the [destination repository](https://github.com/stepankuzmin/copybara-dst)
+  - PRs made to the [destination repository](https://github.com/stepankuzmin/copybara-dst) are imported back into the `project/` folder
+
+This structure demonstrates how Copybara can manage a subdirectory in a monorepo and present it as a standalone repository for public use.
+
 ### Core Configuration File
 
 - **`project/copy.bara.sky`**: Defines two workflows:
@@ -48,7 +58,7 @@ The repository uses a multi-workflow system for different purposes:
   - Uses `workflow_dispatch` with `pr_number` input
   - Can be triggered manually or by destination repo's workflow
 
-- **`.github/workflows/project-ci.yml`**: Runs CI for a sample project
+- **`.github/workflows/project-ci.yml`**: Runs SoT CI for the sample project in the `project/` folder
 
 #### Destination Repository Workflow
 
