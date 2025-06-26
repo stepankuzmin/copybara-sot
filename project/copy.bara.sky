@@ -25,14 +25,8 @@ ${GITHUB_PR_TITLE}
 
 ${GITHUB_PR_BODY}
 
-<details>
-<summary>Details</summary>
-Imported from GitHub PR ${GITHUB_PR_URL} by ${GITHUB_PR_USER}.
 --
 
-GITHUB_PR_USER: ${GITHUB_PR_USER}
-GITHUB_PR_USE_MERGE: ${GITHUB_PR_USE_MERGE}
-</details>
 """
 
 # Push workflow: monorepo to public repo
@@ -52,8 +46,8 @@ core.workflow(
     transformations = [
         core.move(PROJECT_DIR, ""),
         metadata.scrubber("\\(#", replacement = "(internal-"), # replace "#PR" with "internal-PR"
-        metadata.expose_label("COPYBARA_INTEGRATE_REVIEW"),
-        metadata.restore_author("ORIGINAL_AUTHOR", search_all_changes = True),
+        metadata.expose_label("COPYBARA_INTEGRATE_REVIEW", separator=": "),
+        metadata.restore_author("ORIGINAL_AUTHOR", separator=": ", search_all_changes = True),
     ]
 )
 
@@ -80,7 +74,7 @@ core.workflow(
     transformations = [
         core.move("", PROJECT_DIR, paths = glob(["**"], exclude = [".github/**"])),
         metadata.replace_message(PR_MESSAGE_TEMPLATE),
-        metadata.expose_label("REVIEW_URL"),
-        metadata.save_author("ORIGINAL_AUTHOR"),
+        metadata.expose_label("GITHUB_PR_URL", separator=": "),
+        metadata.save_author("ORIGINAL_AUTHOR", separator=": "),
     ]
 )
