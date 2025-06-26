@@ -56,6 +56,13 @@ The repository uses a multi-workflow system for different purposes:
   - Runs on `pull_request_target` events
   - Uses GitHub API to dispatch workflow in SoT repository
 
+### Branch Protection Rulesets
+
+The repository includes GitHub rulesets in the `rulesets/` directory:
+
+- **`Require a PR in SoT repo.json`**: Enforces pull request requirements for the SoT repository
+- **`Restrict default branch in dst repo.json`**: Protects the default branch in the destination repository from pushes
+
 ## Debug
 
 ```bash
