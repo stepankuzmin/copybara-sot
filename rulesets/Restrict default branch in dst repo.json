@@ -1,0 +1,28 @@
+{
+  "id": 6320144,
+  "name": "Restrict default branch in dst repo",
+  "target": "branch",
+  "source_type": "Repository",
+  "source": "stepankuzmin/copybara-dst",
+  "enforcement": "active",
+  "conditions": {
+    "ref_name": {
+      "exclude": [],
+      "include": [
+        "~DEFAULT_BRANCH"
+      ]
+    }
+  },
+  "rules": [
+    {
+      "type": "deletion"
+    },
+    {
+      "type": "non_fast_forward"
+    },
+    {
+      "type": "update"
+    }
+  ],
+  "bypass_actors": []
+}
