@@ -64,7 +64,9 @@ core.workflow(
     destination_files = glob(PR_DESTINATION_INCLUDE, exclude = PR_DESTINATION_EXCLUDE),
     transformations = [
         core.move("", PROJECT_DIR, paths = glob(["**"], exclude = [".github/**"])),
-        metadata.replace_message("${GITHUB_PR_TITLE}\n\nImported from GitHub PR ${GITHUB_PR_URL}\n\n${GITHUB_PR_BODY}\n\nCloses: ${GITHUB_PR_URL}"),
+        metadata.replace_message("${GITHUB_PR_TITLE}\n\n${GITHUB_PR_BODY}"),
+        metadata.expose_label("ORIGINAL_AUTHOR", all = True),
+        metadata.expose_label("GITHUB_PR_URL"),
         metadata.save_author("ORIGINAL_AUTHOR"),
     ]
 )
