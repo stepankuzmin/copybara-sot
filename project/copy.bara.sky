@@ -27,10 +27,7 @@ ${GITHUB_PR_BODY}
 
 --
 
-Closes: ${GITHUB_PR_URL}
-
 List of changes:
-
 """
 
 # Push workflow: monorepo to public repo
@@ -76,7 +73,8 @@ core.workflow(
     destination_files = glob(PR_DESTINATION_INCLUDE, exclude = PR_DESTINATION_EXCLUDE),
     transformations = [
         core.move("", PROJECT_DIR, paths = glob(["**"], exclude = [".github/**"])),
-        metadata.squash_notes(PR_MESSAGE_TEMPLATE, compact = True, show_author = False, oldest_first = True, use_merge = True),
+        metadata.squash_notes(PR_MESSAGE_TEMPLATE, compact = True, show_ref = False, show_author = False, oldest_first = True),
+        metadata.expose_label("GITHUB_PR_URL", "Closes", separator=": "),
         metadata.save_author("Original-author", separator=": "),
     ]
 )
