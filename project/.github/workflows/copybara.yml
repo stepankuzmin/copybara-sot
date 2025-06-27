@@ -15,8 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.repository == 'stepankuzmin/copybara-dst'
     steps:
-      - name: Trigger Copybara workflow
-        uses: actions/github-script@v7
+      - uses: actions/github-script@v7
         with:
           github-token: ${{secrets.GH_TOKEN}}
           script: |
@@ -26,7 +25,6 @@ jobs:
               workflow_id: 'project-copybara-pr.yml',
               ref: 'main',
               inputs: {
-                pr_number: '${{ github.event.pull_request.number }}',
-                mergeable_state: pr.data.mergeable_state
+                pr_number: '${{ github.event.pull_request.number }}'
               }
             });
