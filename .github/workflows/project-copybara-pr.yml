@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       pr_number:
-        description: Pull request number from destination repository
+        description: PR number in the public repo
         required: true
         type: string
 

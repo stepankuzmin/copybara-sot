@@ -73,8 +73,8 @@ core.workflow(
     destination_files = glob(PR_DESTINATION_INCLUDE, exclude = PR_DESTINATION_EXCLUDE),
     transformations = [
         core.move("", PROJECT_DIR, paths = glob(["**"], exclude = [".github/**"])),
+        metadata.replace_message(PR_MESSAGE_TEMPLATE),
         metadata.squash_notes("List of changes:\n", compact = True, oldest_first = True, use_merge = True),
-        # metadata.replace_message(PR_MESSAGE_TEMPLATE),
         metadata.save_author("Original-author", separator=": "),
     ]
 )
