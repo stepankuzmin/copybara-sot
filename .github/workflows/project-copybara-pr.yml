@@ -51,4 +51,5 @@ jobs:
               state: green ? 'success' : 'failure',
               context: 'Copybara PR / sync',
               description: green ? 'Successful' : 'Failed',
+              target_url: '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'
             });
