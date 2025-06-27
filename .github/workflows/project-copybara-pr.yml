@@ -46,6 +46,7 @@ jobs:
               workflow_id: 'copybara.yml',
               ref: 'main',
               inputs: {
-                status: '${{ steps.copybara.outcome }}'
+                status: '${{ steps.copybara.outcome }}',
+                pr_number: '${{ inputs.pr_number }}'
               }
             });
