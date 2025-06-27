@@ -5,104 +5,36 @@ on:
     types: [opened, synchronize, reopened, edited]
     paths-ignore:
       - '.github/**'
-  check_run:
-    types: [requested_action]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  create-check:
+  dispatch:
     runs-on: ubuntu-latest
     if: github.repository == 'stepankuzmin/copybara-dst'
-    steps:
-      - name: Create check with action button
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{secrets.GH_TOKEN}}
-          script: |
-            const check = await github.rest.checks.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              name: 'Copybara Migration',
-              head_sha: context.payload.pull_request.head.sha,
-              status: 'completed',
-              conclusion: 'neutral',
-              output: {
-                title: 'Ready to migrate',
-                summary: 'This PR can be migrated to the Source of Truth repository using Copybara.',
-                text: 'Click the "Migrate PR with Copybara" button to start the migration process.'
-              },
-              actions: [{
-                label: 'Migrate PR with Copybara',
-                description: 'Trigger Copybara to migrate this PR to the SoT repository',
-                identifier: 'migrate_pr'
-              }]
-            });
-            
-            console.log(`Check created with ID: ${check.data.id}`);
-  
-  handle-action:
-    runs-on: ubuntu-latest
-    if: |
-      github.event_name == 'check_run' &&
-      github.event.check_run.name == 'Copybara Migration' &&
-      github.event.requested_action.identifier == 'migrate_pr'
     steps:
       - name: Trigger Copybara workflow
         uses: actions/github-script@v7
         with:
           github-token: ${{secrets.GH_TOKEN}}
           script: |
-            // Get the PR number from the check run
-            const pulls = await github.rest.pulls.list({
+            const pr = await github.rest.pulls.get({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              head: `${context.repo.owner}:${context.payload.check_run.head_branch}`,
-              state: 'open'
+              pull_number: context.payload.pull_request.number
             });
-            
-            if (pulls.data.length === 0) {
-              core.setFailed('No open PR found for this branch');
-              return;
-            }
-            
-            const prNumber = pulls.data[0].number;
-            console.log(`Found PR #${prNumber}`);
-            
-            // Update the check to show it's in progress
-            await github.rest.checks.update({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              check_run_id: context.payload.check_run.id,
-              status: 'in_progress',
-              output: {
-                title: 'Migrating PR',
-                summary: 'Copybara migration is in progress...'
-              }
-            });
-            
-            // Trigger the workflow
+
+            console.log('mergeable_state', pr.data.mergeable_state);
+
             await github.rest.actions.createWorkflowDispatch({
               owner: 'stepankuzmin',
               repo: 'copybara-sot',
               workflow_id: 'project-copybara-pr.yml',
               ref: 'main',
               inputs: {
-                pr_number: String(prNumber)
-              }
-            });
-            
-            // Update the check to show completion
-            await github.rest.checks.update({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              check_run_id: context.payload.check_run.id,
-              status: 'completed',
-              conclusion: 'success',
-              output: {
-                title: 'Migration triggered',
-                summary: `Copybara migration has been triggered for PR #${prNumber}.`
+                pr_number: '${{ github.event.pull_request.number }}',
+                mergeable_state: pr.data.mergeable_state
               }
             });
