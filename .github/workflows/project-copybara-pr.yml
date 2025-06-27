@@ -30,7 +30,8 @@ jobs:
       - name: Copybara PR
         id: copybara
         run: |
-          java -jar copybara.jar migrate project/copy.bara.sky pr ${{ inputs.pr_number }}
+          java -jar copybara.jar migrate project/copy.bara.sky pr ${{ inputs.pr_number }} \
+            --git-credential-helper-store-file=$HOME/.git-credentials
 
       - uses: actions/github-script@v7
         if: always()
