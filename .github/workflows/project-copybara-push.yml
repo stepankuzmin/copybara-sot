@@ -32,7 +32,7 @@ jobs:
         run: java -jar copybara.jar validate project/copy.bara.sky
 
       - name: Dry run
-        run: java -jar copybara.jar migrate project/copy.bara.sky push --squash --dry-run
+        run: java -jar copybara.jar migrate project/copy.bara.sky push ${{ github.ref }} --squash --dry-run
 
       - name: Push
         if: github.ref_name == github.event.repository.default_branch
