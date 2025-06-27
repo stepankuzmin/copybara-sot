@@ -35,25 +35,17 @@ jobs:
             --github-pr-merge
         continue-on-error: true
 
-      - name: Create check in destination repo
+      - uses: actions/github-script@v7
         if: always()
-        uses: actions/github-script@v7
         with:
+          github-token: ${{secrets.GH_TOKEN}}
           script: |
-            const pr = await github.rest.pulls.get({
+            await github.rest.actions.createWorkflowDispatch({
               owner: 'stepankuzmin',
               repo: 'copybara-dst',
-              pull_number: ${{ inputs.pr_number }}
-            });
-
-            console.log('pr', pr.data);
-
-            await github.rest.checks.create({
-              owner: 'stepankuzmin',
-              repo: 'copybara-dst',
-              name: 'Copybara Migration',
-              head_sha: pr.data.head.sha,
-              status: 'completed',
-              conclusion: '${{ steps.copybara.outcome }}',
-              completed_at: new Date().toISOString()
+              workflow_id: 'copybara.yml',
+              ref: 'main',
+              inputs: {
+                status: '${{ steps.copybara.outcome }}'
+              }
             });
