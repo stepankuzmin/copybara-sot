@@ -48,8 +48,5 @@ jobs:
               owner: 'stepankuzmin',
               repo: 'copybara-dst',
               sha: pr.data.head.sha,
-              state: '${{ steps.copybara.outcome }}',
-              description: 'Copybara migration ${{ steps.copybara.outcome }}',
-              context: 'copybara/migration',
-              target_url: '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'
+              state: '${{ steps.copybara.outcome }}'
             });
