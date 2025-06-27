@@ -39,7 +39,6 @@ jobs:
         if: always()
         uses: actions/github-script@v7
         with:
-          github-token: ${{secrets.GH_TOKEN}}
           script: |
             const pr = await github.rest.pulls.get({
               owner: 'stepankuzmin',
