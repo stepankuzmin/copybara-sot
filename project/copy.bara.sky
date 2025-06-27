@@ -74,7 +74,7 @@ core.workflow(
     transformations = [
         core.move("", PROJECT_DIR, paths = glob(["**"], exclude = [".github/**"])),
         metadata.squash_notes("List of changes:\n", compact = True, oldest_first = True, use_merge = True),
-        metadata.replace_message(PR_MESSAGE_TEMPLATE),
+        # metadata.replace_message(PR_MESSAGE_TEMPLATE),
         metadata.save_author("Original-author", separator=": "),
     ]
 )
