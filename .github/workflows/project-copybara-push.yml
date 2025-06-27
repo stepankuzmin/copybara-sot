@@ -35,6 +35,4 @@ jobs:
 
       - name: Push
         if: github.ref_name == github.event.repository.default_branch
-        run: |
-          java -jar copybara.jar migrate project/copy.bara.sky push \
-            --git-credential-helper-store-file=$HOME/.git-credentials
+        run: java -jar copybara.jar migrate project/copy.bara.sky push

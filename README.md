@@ -108,19 +108,16 @@ java -jar copybara.jar validate project/copy.bara.sky
 ```bash
 # Initial sync with history
 java -jar copybara.jar migrate project/copy.bara.sky push \
-  --git-credential-helper-store-file=$HOME/.git-credentials \
   --ignore-noop \
   --force \
   --init-history
 
 # Regular sync
-java -jar copybara.jar migrate project/copy.bara.sky push \
-  --git-credential-helper-store-file=$HOME/.git-credentials
+java -jar copybara.jar migrate project/copy.bara.sky push
 ```
 
 ### Run PR Workflow (Destination → SoT)
 
 ```bash
-java -jar copybara.jar migrate project/copy.bara.sky pr <PR_NUMBER> \
-  --git-credential-helper-store-file=$HOME/.git-credentials
+java -jar copybara.jar migrate project/copy.bara.sky pr <PR_NUMBER>
 ```
