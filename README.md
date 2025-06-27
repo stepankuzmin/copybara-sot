@@ -8,6 +8,20 @@ This is a Copybara configuration repository that manages bidirectional synchroni
 
 The repository uses Google's [Copybara](https://github.com/google/copybara/) to maintain sync between a private monorepo and a public repository.
 
+```
+ Source of Truth                  Destination
+
++---------------+   Copybara   +---------------+
+|     `main`    +------------> |     `main`    |
++-------+-------+              +---------------+
+        ^
+        |
+        |
++-------+-------+   Copybara   +---------------+
+| Pull Requests | <------------+ Pull Requests |
++---------------+              +---------------+
+```
+
 ## Pre-requisite
 
 - [GitHub Personal access token](https://github.com/settings/tokens) with `repo` permissions

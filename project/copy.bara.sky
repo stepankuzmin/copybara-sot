@@ -27,6 +27,7 @@ ${GITHUB_PR_BODY}
 
 --
 
+Closes: ${GITHUB_PR_URL}
 """
 
 # Push workflow: monorepo to public repo
@@ -46,8 +47,7 @@ core.workflow(
     transformations = [
         core.move(PROJECT_DIR, ""),
         metadata.scrubber("\\(#", replacement = "(internal-"), # replace "#PR" with "internal-PR"
-        metadata.expose_label("COPYBARA_INTEGRATE_REVIEW", separator=": "),
-        metadata.restore_author("ORIGINAL_AUTHOR", separator=": ", search_all_changes = True),
+        metadata.restore_author("Original-author", separator=": ", search_all_changes = True),
     ]
 )
 
@@ -73,9 +73,8 @@ core.workflow(
     destination_files = glob(PR_DESTINATION_INCLUDE, exclude = PR_DESTINATION_EXCLUDE),
     transformations = [
         core.move("", PROJECT_DIR, paths = glob(["**"], exclude = [".github/**"])),
+        metadata.squash_notes("List of changes:\n", compact = True, oldest_first = True, use_merge = True),
         metadata.replace_message(PR_MESSAGE_TEMPLATE),
-        metadata.squash_notes("List of changes:\n", oldest_first = True),
-        metadata.expose_label("GITHUB_PR_URL", separator=": "),
-        metadata.save_author("ORIGINAL_AUTHOR", separator=": "),
+        metadata.save_author("Original-author", separator=": "),
     ]
 )
