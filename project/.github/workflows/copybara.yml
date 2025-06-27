@@ -15,7 +15,21 @@ jobs:
     runs-on: ubuntu-latest
     if: github.repository == 'stepankuzmin/copybara-dst'
     steps:
-      - uses: actions/github-script@v7
+      - name: Check PR mergeable state
+        id: check
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{secrets.GH_TOKEN}}
+          script: |
+            const pr = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number
+            });
+            core.setOutput('green', pr.data.mergeable_state === 'clean');
+      - name: Trigger Copybara workflow
+        if: steps.check.outputs.green == 'true'
+        uses: actions/github-script@v7
         with:
           github-token: ${{secrets.GH_TOKEN}}
           script: |
