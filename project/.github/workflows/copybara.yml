@@ -20,14 +20,6 @@ jobs:
         with:
           github-token: ${{secrets.GH_TOKEN}}
           script: |
-            const pr = await github.rest.pulls.get({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: context.payload.pull_request.number
-            });
-
-            console.log('mergeable_state', pr.data.mergeable_state);
-
             await github.rest.actions.createWorkflowDispatch({
               owner: 'stepankuzmin',
               repo: 'copybara-sot',

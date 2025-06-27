@@ -28,6 +28,33 @@ jobs:
           echo "https://x-access-token:${{ secrets.GH_TOKEN }}@github.com" > ~/.git-credentials
 
       - name: Copybara PR
+        id: copybara
         run: |
           java -jar copybara.jar migrate project/copy.bara.sky pr ${{ inputs.pr_number }} \
-            --git-credential-helper-store-file=$HOME/.git-credentials
+            --git-credential-helper-store-file=$HOME/.git-credentials \
+            --github-pr-merge
+        continue-on-error: true
+
+      - name: Create check in destination repo
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{secrets.GH_TOKEN}}
+          script: |
+            const pr = await github.rest.pulls.get({
+              owner: 'stepankuzmin',
+              repo: 'copybara-dst',
+              pull_number: ${{ inputs.pr_number }}
+            });
+
+            console.log('pr', pr.data);
+
+            await github.rest.checks.create({
+              owner: 'stepankuzmin',
+              repo: 'copybara-dst',
+              name: 'Copybara Migration',
+              head_sha: pr.data.head.sha,
+              status: 'completed',
+              conclusion: '${{ steps.copybara.outcome }}',
+              completed_at: new Date().toISOString()
+            });
