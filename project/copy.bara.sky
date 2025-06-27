@@ -36,7 +36,7 @@ core.workflow(
     origin_files = glob(PUSH_INCLUDE, exclude = PUSH_EXCLUDE),
     transformations = [
         core.move(PROJECT_DIR, ""),
-        metadata.scrubber('^(?:\n|.)*<public>((?:\n|.)*)</public>(?:\n|.)*$', replacement = '$1'),
+        metadata.scrubber('^(?:\n|.)*<public>((?:\n|.)*)</public>(?:\n|.)*$', replacement = '$1', fail_if_no_match = True),
         metadata.scrubber("\\(#", replacement = "(internal-"), # replace "#PR" with "internal-PR"
         metadata.restore_author("Original-author", separator=": ", search_all_changes = True),
     ]
