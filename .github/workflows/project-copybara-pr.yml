@@ -36,7 +36,7 @@ jobs:
       - uses: actions/github-script@v7
         if: always()
         with:
-          github-token: ${{ github.token }}
+          github-token: ${{ secrets.GH_TOKEN }}
           script: |
             const pr = await github.rest.pulls.get({
               owner: 'stepankuzmin',
@@ -44,12 +44,12 @@ jobs:
               pull_number: ${{ inputs.pr_number }}
             });
 
-            await github.rest.checks.create({
+            await github.rest.repos.createCommitStatus({
               owner: 'stepankuzmin',
               repo: 'copybara-dst',
-              name: 'Copybara Migration',
-              head_sha: pr.data.head.sha,
-              status: 'completed',
-              conclusion: '${{ steps.copybara.outcome }}',
-              completed_at: new Date().toISOString()
+              sha: pr.data.head.sha,
+              state: '${{ steps.copybara.outcome }}',
+              description: 'Copybara migration ${{ steps.copybara.outcome }}',
+              context: 'copybara/migration',
+              target_url: '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'
             });
