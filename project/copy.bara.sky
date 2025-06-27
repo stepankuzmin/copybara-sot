@@ -20,16 +20,6 @@ PR_ORIGIN_EXCLUDE = [".github/**"]
 PR_DESTINATION_INCLUDE = [PROJECT_DIR + "/**"]
 PR_DESTINATION_EXCLUDE = [PROJECT_DIR + "/copy.bara.sky", PROJECT_DIR + "/.github/**"]
 
-PR_MESSAGE_TEMPLATE = """
-${GITHUB_PR_TITLE}
-
-${GITHUB_PR_BODY}
-
---
-
-List of changes:
-"""
-
 # Push workflow: monorepo to public repo
 core.workflow(
     name = "push",
@@ -73,7 +63,7 @@ core.workflow(
     destination_files = glob(PR_DESTINATION_INCLUDE, exclude = PR_DESTINATION_EXCLUDE),
     transformations = [
         core.move("", PROJECT_DIR, paths = glob(["**"], exclude = [".github/**"])),
-        metadata.squash_notes(PR_MESSAGE_TEMPLATE, compact = True, show_ref = False, show_author = False, oldest_first = True),
+        metadata.replace_message("${GITHUB_PR_TITLE}\n\n${GITHUB_PR_BODY}\n\n--\n\n"),
         metadata.expose_label("GITHUB_PR_URL", "Closes", separator=": "),
         metadata.save_author("Original-author", separator=": "),
     ]
