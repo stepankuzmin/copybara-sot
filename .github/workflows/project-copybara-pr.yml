@@ -17,19 +17,12 @@ jobs:
         with:
           fetch-depth: 0 # Copybara needs full history
 
-      - name: Setup Copybara
-        uses: ./.github/actions/setup-copybara
-
-      - name: Set up Git credentials
-        run: |
-          git config --global credential.helper store
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          echo "https://x-access-token:${{ secrets.GH_TOKEN }}@github.com" > ~/.git-credentials
-
-      - name: Copybara PR
+      - name: Migrate PR from public repo
         id: copybara
-        run: java -jar copybara.jar migrate project/copy.bara.sky pr ${{ inputs.pr_number }}
+        uses: ./.github/actions/copybara
+        with:
+          github_token: ${{ secrets.GH_TOKEN }}
+          run: migrate project/copy.bara.sky pr ${{ inputs.pr_number }}
 
       - uses: actions/github-script@v7
         if: always()

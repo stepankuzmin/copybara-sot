@@ -19,13 +19,13 @@ jobs:
         with:
           sparse-checkout: |
             ./project
-            ./.github/actions/setup-copybara
-      - name: Setup Copybara
-        uses: ./.github/actions/setup-copybara
-      - name: Validate PR migration
+            ./.github/actions/copybara
+      - name: Validate PR migration to public repo
+        uses: ./.github/actions/copybara
         env:
           PR_BODY: ${{ github.event.pull_request.body }}
-        run: java -jar copybara.jar migrate project/copy.bara.sky push ${{ github.ref }} --force-message "$PR_BODY" --squash --dry-run
+        with:
+          run: migrate project/copy.bara.sky push ${{ github.ref }} --force-message "$PR_BODY" --squash --dry-run
 
   check:
     runs-on: ubuntu-latest

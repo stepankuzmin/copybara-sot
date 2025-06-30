@@ -19,23 +19,9 @@ jobs:
         with:
           fetch-depth: 0 # Copybara needs full history
 
-      - name: Setup Copybara
-        uses: ./.github/actions/setup-copybara
-
-      - name: Set up Git credentials
-        run: |
-          git config --global credential.helper store
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-
-      - name: Validate
-        run: java -jar copybara.jar validate project/copy.bara.sky
-
-      - name: Dry run
-        run: java -jar copybara.jar migrate project/copy.bara.sky push ${{ github.ref }} --squash --dry-run
-
       - name: Push
         if: github.ref_name == github.event.repository.default_branch
-        run: |
-          echo "https://x-access-token:${{ secrets.GH_TOKEN }}@github.com" > ~/.git-credentials
-          java -jar copybara.jar migrate project/copy.bara.sky push
+        uses: ./.github/actions/copybara
+        with:
+          github_token: ${{ secrets.GH_TOKEN }}
+          run: migrate project/copy.bara.sky push
