@@ -22,18 +22,14 @@ jobs:
             ./.github/actions/setup-copybara
       - name: Setup Copybara
         uses: ./.github/actions/setup-copybara
-      - name: Set up Git credentials
-        run: |
-          git config --global credential.helper store
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-      - name: Dry run Copybara
+      - name: Validate PR migration
         env:
           PR_BODY: ${{ github.event.pull_request.body }}
         run: java -jar copybara.jar migrate project/copy.bara.sky push ${{ github.ref }} --force-message "$PR_BODY" --squash --dry-run
 
   check:
     runs-on: ubuntu-latest
+    if: github.event.action != 'edited'
     defaults:
       run:
         working-directory: project
