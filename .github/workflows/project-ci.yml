@@ -29,7 +29,7 @@ jobs:
       - run: npm test
       - name: Check for a public commit message
         run: |
-          if ! grep -q '<public>.*</public>' <<< "${{ github.event.pull_request.body }}"; then
+          if ! echo "${{ github.event.pull_request.body }}" | grep -Pzo '<public>.*?</public>' > /dev/null; then
             echo "::error::PR body must contain a <public>commit message</public>"
             exit 1
           fi
