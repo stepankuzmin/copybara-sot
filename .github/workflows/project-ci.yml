@@ -35,3 +35,12 @@ jobs:
             echo "::error::PR body must contain a <public>commit message</public>"
             exit 1
           fi
+      - name: Setup Copybara
+        uses: ./.github/actions/setup-copybara
+      - name: Set up Git credentials
+        run: |
+          git config --global credential.helper store
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+      - name: Dry run Copybara
+        run: java -jar copybara.jar migrate project/copy.bara.sky push ${{ github.ref }} --squash --dry-run
