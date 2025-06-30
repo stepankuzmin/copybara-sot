@@ -28,7 +28,9 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
       - name: Dry run Copybara
-        run: java -jar copybara.jar migrate project/copy.bara.sky push ${{ github.ref }} --force-message "${{ github.event.pull_request.body }}" --squash --dry-run
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: java -jar copybara.jar migrate project/copy.bara.sky push ${{ github.ref }} --force-message "$PR_BODY" --squash --dry-run
 
   check:
     runs-on: ubuntu-latest
