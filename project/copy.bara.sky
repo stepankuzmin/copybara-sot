@@ -43,14 +43,15 @@ core.workflow(
 )
 
 PR_TEMPLATE = """
-> [!NOTE]
-> This PR was imported from the public repo: ${GITHUB_PR_URL}
-
 ${GITHUB_PR_BODY}
 
 --
 
-<public>${GITHUB_PR_TITLE} (h/t @${GITHUB_PR_USER}) ${GITHUB_PR_NUMBER}</public>
+> [!NOTE]
+> This PR was imported from ${GITHUB_PR_URL}
+> ```
+> <public>${GITHUB_PR_TITLE} (h/t @${GITHUB_PR_USER}) #${GITHUB_PR_NUMBER}</public>
+> ```
 
 Closes: ${GITHUB_PR_URL}
 """
@@ -67,7 +68,7 @@ core.workflow(
         url = SOT_REPO,
         destination_ref = SOT_BRANCH,
         integrates = [],
-        title = "${GITHUB_PR_TITLE}",
+        title = "[EXT] ${GITHUB_PR_TITLE}",
         update_description = True,
     ),
     mode = "CHANGE_REQUEST",
