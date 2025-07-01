@@ -1,4 +1,4 @@
-name: Copybara Push
+name: Mirror to public
 
 on:
   push:
@@ -11,16 +11,16 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  push:
+  mirror:
     runs-on: ubuntu-latest
+    if: github.ref_name == github.event.repository.default_branch
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Copybara needs full history
+          fetch-depth: 0 # Mirroring needs full history
 
-      - name: Push
-        if: github.ref_name == github.event.repository.default_branch
+      - name: Mirror to public repository
         uses: ./.github/actions/copybara
         with:
           github_token: ${{ secrets.GH_TOKEN }}
