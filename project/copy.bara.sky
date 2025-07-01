@@ -42,6 +42,19 @@ core.workflow(
     ]
 )
 
+PR_TEMPLATE = """
+> [!NOTE]
+> This PR was imported from the public repo: ${GITHUB_PR_URL}
+
+${GITHUB_PR_BODY}
+
+--
+
+<public>${GITHUB_PR_TITLE} (h/t @${GITHUB_PR_USER}) ${GITHUB_PR_NUMBER}</public>
+
+Closes: ${GITHUB_PR_URL}
+"""
+
 # Pull Request workflow: public repo to monorepo
 core.workflow(
     name = "pr",
@@ -64,8 +77,7 @@ core.workflow(
     destination_files = glob(PR_DESTINATION_INCLUDE, exclude = PR_DESTINATION_EXCLUDE),
     transformations = [
         core.move("", PROJECT_DIR),
-        metadata.replace_message("${GITHUB_PR_TITLE}\n\n${GITHUB_PR_BODY}\n\n--\n\n<public>\n${GITHUB_PR_TITLE}\n</public>\n\n"),
-        metadata.expose_label("GITHUB_PR_URL", "Closes", separator=": "),
+        metadata.replace_message(PR_TEMPLATE),
         metadata.save_author("Original-author", separator=": "),
     ]
 )
