@@ -1,0 +1,70 @@
+name: Copybara
+description: Sets up and runs Copybara
+
+inputs:
+  version:
+    description: Copybara version
+    required: false
+    default: 'v20250623'
+  git_user_name:
+    description: Git user name
+    required: false
+    default: 'github-actions[bot]'
+  git_user_email:
+    description: Git user email
+    required: false
+    default: 'github-actions[bot]@users.noreply.github.com'
+  github_token:
+    description: GitHub token for authentication
+    required: false
+    default: ''
+  run:
+    description: Command to run (e.g. "migrate project/copy.bara.sky push --dry-run")
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Set up Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '21'
+
+    - name: Cache
+      uses: actions/cache@v4
+      with:
+        path: copybara.jar
+        key: copybara-${{ inputs.version }}
+
+    - name: Download Copybara
+      shell: bash
+      run: |
+        if [ ! -f copybara.jar ]; then
+          wget https://github.com/google/copybara/releases/download/${{ inputs.version }}/copybara_deploy.jar -O copybara.jar
+        fi
+
+    - name: Set Git credentials
+      shell: bash
+      run: |
+        git config --global user.name '${{ inputs.git_user_name }}'
+        git config --global user.email '${{ inputs.git_user_email }}'
+        if [ -n "${{ inputs.github_token }}" ]; then
+          git config --global credential.helper store
+          echo "https://x-access-token:${{ inputs.github_token }}@github.com" > ~/.git-credentials
+        fi
+
+    - name: Run Copybara
+      shell: bash
+      run: java -jar copybara.jar ${{ inputs.run }}
+
+    - name: Reset Git credentials
+      if: always()
+      shell: bash
+      run: |
+        git config --global --unset user.name
+        git config --global --unset user.email
+        if [ -n "${{ inputs.github_token }}" ]; then
+          rm -f ~/.git-credentials
+          git config --global --unset credential.helper
+        fi

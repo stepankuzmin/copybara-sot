@@ -1,4 +1,4 @@
-name: Copybara PR
+name: Import public PR
 
 on:
   workflow_dispatch:
@@ -9,29 +9,24 @@ on:
         type: string
 
 jobs:
-  pr:
+  import:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Copybara needs full history
+          sparse-checkout: |
+            project
+            .github/actions/copybara
 
-      - name: Setup Copybara
-        uses: ./.github/actions/setup-copybara
+      - name: Import PR from public repo
+        id: import
+        uses: ./.github/actions/copybara
+        with:
+          github_token: ${{ secrets.GH_TOKEN }}
+          run: migrate project/copy.bara.sky pr ${{ inputs.pr_number }}
 
-      - name: Set up Git credentials
-        run: |
-          git config --global credential.helper store
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          echo "https://x-access-token:${{ secrets.GH_TOKEN }}@github.com" > ~/.git-credentials
-
-      - name: Copybara PR
-        id: copybara
-        run: java -jar copybara.jar migrate project/copy.bara.sky pr ${{ inputs.pr_number }}
-
-      - uses: actions/github-script@v7
+      - name: Notify original PR
+        uses: actions/github-script@v7
         if: always()
         with:
           github-token: ${{ secrets.GH_TOKEN }}
@@ -42,14 +37,14 @@ jobs:
               pull_number: ${{ inputs.pr_number }}
             });
 
-            const green = '${{ steps.copybara.outcome }}' === 'success';
+            const green = '${{ steps.import.outcome }}' === 'success';
 
             await github.rest.repos.createCommitStatus({
               owner: 'stepankuzmin',
               repo: 'copybara-dst',
               sha: pr.data.head.sha,
               state: green ? 'success' : 'failure',
-              context: 'Copybara PR / sync',
+              context: 'Import PR / sync',
               description: green ? 'Successful' : 'Failed',
               target_url: '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'
             });

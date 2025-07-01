@@ -1,4 +1,4 @@
-name: Copybara PR
+name: PR notify
 
 on:
   pull_request_target:
@@ -11,18 +11,19 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  dispatch:
+  notify:
     runs-on: ubuntu-latest
     if: github.repository == 'stepankuzmin/copybara-dst'
     steps:
-      - uses: actions/github-script@v7
+      - name: Notify upstream
+        uses: actions/github-script@v7
         with:
           github-token: ${{secrets.GH_TOKEN}}
           script: |
             await github.rest.actions.createWorkflowDispatch({
               owner: 'stepankuzmin',
               repo: 'copybara-sot',
-              workflow_id: 'project-copybara-pr.yml',
+              workflow_id: 'import-public-pr.yml',
               ref: 'main',
               inputs: {
                 pr_number: '${{ github.event.pull_request.number }}'
