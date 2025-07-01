@@ -15,7 +15,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Import needs full history
+          fetch-depth: 0
+          sparse-checkout: |
+            project
+            .github/actions/copybara
 
       - name: Import PR from public repo
         id: import
