@@ -1,6 +1,6 @@
 # Copybara SoT ⭐️
 
-[![Copybara SoT](https://github.com/stepankuzmin/copybara-sot/actions/workflows/project-copybara-push.yml/badge.svg)](https://github.com/stepankuzmin/copybara-sot/actions/workflows/copybara.yml)
+[![Mirror to public](https://github.com/stepankuzmin/copybara-sot/actions/workflows/mirror-to-public.yml/badge.svg)](https://github.com/stepankuzmin/copybara-sot/actions/workflows/mirror-to-public.yml)
 
 This is a Copybara configuration repository that manages bidirectional synchronization between:
 - **Source of Truth (SoT)**: [`stepankuzmin/copybara-sot`](https://github.com/stepankuzmin/copybara-sot) (this repository)
@@ -50,13 +50,11 @@ This structure demonstrates how Copybara can manage a subdirectory in a monorepo
 
 1. **Push workflow**:
    - Moves content from `project/` to root in destination
-   - Replaces `#PR` references with `internal-PR`
    - Preserves original author metadata
 
 2. **PR workflow**:
    - Moves content from root to `project/` in SoT
-   - Excludes `copy.bara.sky` and `.github/**` to prevent config conflicts
-   - Adds PR metadata (title, body, URL) to commit message
+   - Adds PR metadata to commit messages
 
 ### Workflow System
 
@@ -64,21 +62,14 @@ The repository uses a multi-workflow system for different purposes:
 
 #### SoT Repository Workflows
 
-- `.github/workflows/project-copybara-push.yml`: Automatically syncs changes from SoT to destination repository
-  - Triggers on pushes to `project/**` (excluding `copy.bara.sky`)
-  - Only runs on default branch
+- `.github/workflows/mirror-to-public.yml`: Automatically syncs changes from SoT to destination repository
+- `.github/workflows/import-public-pr.yml`: Imports PRs from destination repository back to SoT
+- `.github/workflows/project-ci.yml`: Runs CI for the TypeScript project
 
-- `.github/workflows/project-copybara-pr.yml`: Imports PRs from destination repository
-  - Uses `workflow_dispatch` with `pr_number` input
-  - Can be triggered manually or by destination repo's workflow
+#### Destination Repository Workflows
 
-- `.github/workflows/project-ci.yml`: Runs SoT CI in the `project/` folder
-
-#### Destination Repository Workflow
-
-- `project/.github/workflows/copybara.yml`: Triggers PR import in SoT repository
-  - Runs on `pull_request_target` events
-  - Uses GitHub API to dispatch workflow in SoT repository
+- `project/.github/workflows/pr-notify.yml`: Notifies SoT repository when PRs are opened
+- `project/.github/workflows/ci.yml`: Runs CI for the destination repository
 
 ### Branch Protection Rulesets
 
