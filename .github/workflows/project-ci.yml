@@ -20,14 +20,14 @@ jobs:
           sparse-checkout: |
             ./project
             ./.github/actions/copybara
-      - uses: actions/github-script@v7
+      - name: Check public commit message
         env:
           PR_BODY: ${{ github.event.pull_request.body }}
-        with:
-          script: |
-            if (!/<public>.*<\/public>/.test(${{env.PR_BODY}})) {
-              core.setFailed('PR body must contain a `<public>commit message</public>`');
-            }
+        run: |
+          if [[ ! "$PR_BODY" =~ \<public\>.*\</public\> ]]; then
+            echo "::error::PR body must contain <public>commit message</public>"
+            exit 1
+          fi
       - name: Validate PR migration to public repo
         uses: ./.github/actions/copybara
         env:
