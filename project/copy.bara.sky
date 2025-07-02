@@ -51,8 +51,7 @@ GITHUB_PR_FOOTER = """
 > This PR was imported from ${GITHUB_PR_URL}
 > ```
 > <public>
-> ${GITHUB_PR_TITLE} (#${GITHUB_PR_NUMBER})
-> (h/t @${GITHUB_PR_USER})
+> ${GITHUB_PR_TITLE} (h/t @${GITHUB_PR_USER}) (#${GITHUB_PR_NUMBER})
 > </public>
 > ```
 
