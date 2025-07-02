@@ -50,12 +50,10 @@ ${GITHUB_PR_BODY}
 --
 
 > [!NOTE]
-> This PR was imported from ${GITHUB_PR_URL}
+> This PR was imported from the public repo and closes: ${GITHUB_PR_URL}
 > ```
 > <public>${GITHUB_PR_TITLE} (h/t @${GITHUB_PR_USER}) (#${GITHUB_PR_NUMBER})</public>
 > ```
-> Closes: ${GITHUB_PR_URL}
-> Author: ${COPYBARA_AUTHOR}
 """
 
 core.workflow(
