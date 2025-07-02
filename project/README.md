@@ -7,6 +7,6 @@ This repository is bidirectionally synchronized with [`stepankuzmin/copybara-sot
 ## How it works
 
 - **Pull Requests** → PRs targeting the default branch are automatically synced upstream
-- **Changes from upstream** → Automatically propagated back here 🚀
+- **Changes from upstream** → Automatically propagated back here
 
 See the [upstream README](https://github.com/stepankuzmin/copybara-sot/tree/main?tab=readme-ov-file) for more details.
