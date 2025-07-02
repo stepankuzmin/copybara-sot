@@ -39,25 +39,25 @@ core.workflow(
         metadata.scrubber('^(?:\n|.)*<public>((?:\n|.)*)</public>(?:\n|.)*$', fail_if_no_match = True, replacement = '$1'),
         metadata.scrubber("\\(#", replacement = "(internal-"), # replace "(#PR)" with "(internal-PR)"
         metadata.scrubber("\\(public-", replacement = "(#"), # replace "(public-PR)" with "(#PR)"
-        metadata.restore_author("Original-author", separator=": ", search_all_changes = True),
+        metadata.restore_author("Author", separator=": ", search_all_changes = True),
     ]
 )
 
-PR_TEMPLATE = """
-${GITHUB_PR_BODY}
-
+# Pull Request workflow: public repo to monorepo
+GITHUB_PR_FOOTER = """
 --
 
 > [!NOTE]
 > This PR was imported from ${GITHUB_PR_URL}
 > ```
-> <public>${GITHUB_PR_TITLE} (h/t @${GITHUB_PR_USER}) (#${GITHUB_PR_NUMBER})</public>
+> <public>
+> ${GITHUB_PR_TITLE} (#${GITHUB_PR_NUMBER})
+> (h/t @${GITHUB_PR_USER})
+> </public>
 > ```
 
-Closes: ${GITHUB_PR_URL}
-"""
+Closes: ${GITHUB_PR_URL}"""
 
-# Pull Request workflow: public repo to monorepo
 core.workflow(
     name = "pr",
     origin = git.github_pr_origin(
@@ -79,9 +79,9 @@ core.workflow(
     destination_files = glob(PR_DESTINATION_INCLUDE, exclude = PR_DESTINATION_EXCLUDE),
     transformations = [
         core.move("", PROJECT_DIR),
-        metadata.replace_message(PR_TEMPLATE),
+        metadata.replace_message("${GITHUB_PR_BODY}" + GITHUB_PR_FOOTER),
         metadata.scrubber("\\(#", replacement = "(public-"), # replace "(#PR)" with "(public-PR)"
         metadata.scrubber("\\(internal-", replacement = "(#"), # replace "(internal-PR)" with "(#PR)"
-        metadata.save_author("Original-author", separator=": "),
+        metadata.save_author("Author", separator=": "),
     ]
 )

@@ -66,7 +66,7 @@ The repository uses a multi-workflow system for different purposes:
 - `.github/workflows/import-public-pr.yml`: Imports PRs from destination repository back to SoT
   - Can be triggered manually at https://github.com/stepankuzmin/copybara-sot/actions/workflows/import-public-pr.yml
   - Requires the public PR number as input
-- `.github/workflows/project-ci.yml`: Runs CI for the TypeScript project
+- `.github/workflows/project-ci.yml`: Runs CI for the sample project
 
 #### Destination Repository Workflows
 
@@ -107,6 +107,9 @@ java -jar copybara.jar migrate project/copy.bara.sky push \
 
 # Regular sync
 java -jar copybara.jar migrate project/copy.bara.sky push
+
+# Sync ignoring no-op changes
+java -jar copybara.jar migrate project/copy.bara.sky push --ignore-noop
 ```
 
 ### Run PR Workflow (Destination → SoT)
