@@ -5,6 +5,7 @@ on:
     types: [opened, synchronize, reopened, edited]
     paths:
       - "project/**"
+      - "copy.bara.sky"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
