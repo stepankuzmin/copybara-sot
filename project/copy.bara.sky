@@ -37,8 +37,8 @@ core.workflow(
     transformations = [
         core.move(PROJECT_DIR, ""),
         metadata.scrubber('^(?:\n|.)*<public>((?:\n|.)*)</public>(?:\n|.)*$', fail_if_no_match = True, replacement = '$1'),
-        metadata.scrubber("\\(#", replacement = "(internal-"), # replace "#PR" with "internal-PR"
-        metadata.scrubber("\\(public-", replacement = "(#"), # replace "public-PR" with "#PR"
+        metadata.scrubber("\\(#", replacement = "(internal-"), # replace "(#PR)" with "(internal-PR)"
+        metadata.scrubber("\\(public-", replacement = "(#"), # replace "(public-PR)" with "(#PR)"
         metadata.restore_author("Original-author", separator=": ", search_all_changes = True),
     ]
 )
@@ -51,7 +51,7 @@ ${GITHUB_PR_BODY}
 > [!NOTE]
 > This PR was imported from ${GITHUB_PR_URL}
 > ```
-> <public>${GITHUB_PR_TITLE} (h/t @${GITHUB_PR_USER}) #${GITHUB_PR_NUMBER}</public>
+> <public>${GITHUB_PR_TITLE} (h/t @${GITHUB_PR_USER}) (#${GITHUB_PR_NUMBER})</public>
 > ```
 
 Closes: ${GITHUB_PR_URL}
@@ -80,8 +80,8 @@ core.workflow(
     transformations = [
         core.move("", PROJECT_DIR),
         metadata.replace_message(PR_TEMPLATE),
-        metadata.scrubber("\\(#", replacement = "(public-"), # replace "#PR" with "public-PR"
-        metadata.scrubber("\\(internal-", replacement = "(#"), # replace "internal-PR" with "#PR"
+        metadata.scrubber("\\(#", replacement = "(public-"), # replace "(#PR)" with "(public-PR)"
+        metadata.scrubber("\\(internal-", replacement = "(#"), # replace "(internal-PR)" with "(#PR)"
         metadata.save_author("Original-author", separator=": "),
     ]
 )
