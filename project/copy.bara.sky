@@ -44,7 +44,9 @@ core.workflow(
 )
 
 # Pull Request workflow: public repo to monorepo
-GITHUB_PR_FOOTER = """
+GITHUB_PR_TEMPLATE = """
+${GITHUB_PR_BODY}
+
 --
 
 > [!NOTE]
@@ -78,7 +80,7 @@ core.workflow(
     destination_files = glob(PR_DESTINATION_INCLUDE, exclude = PR_DESTINATION_EXCLUDE),
     transformations = [
         core.move("", PROJECT_DIR),
-        metadata.replace_message("${GITHUB_PR_BODY}" + GITHUB_PR_FOOTER),
+        metadata.replace_message(GITHUB_PR_TEMPLATE),
         metadata.scrubber("\\(#", replacement = "(public-"), # replace "(#PR)" with "(public-PR)"
         metadata.scrubber("\\(internal-", replacement = "(#"), # replace "(internal-PR)" with "(#PR)"
         metadata.save_author("Author", separator=": "),
