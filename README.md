@@ -64,6 +64,8 @@ The repository uses a multi-workflow system for different purposes:
 
 - `.github/workflows/mirror-to-public.yml`: Automatically syncs changes from SoT to destination repository
 - `.github/workflows/import-public-pr.yml`: Imports PRs from destination repository back to SoT
+  - Can be triggered manually at https://github.com/stepankuzmin/copybara-sot/actions/workflows/import-public-pr.yml
+  - Requires the public PR number as input
 - `.github/workflows/project-ci.yml`: Runs CI for the TypeScript project
 
 #### Destination Repository Workflows
