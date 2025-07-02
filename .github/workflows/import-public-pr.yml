@@ -44,7 +44,7 @@ jobs:
               repo: 'copybara-dst',
               sha: pr.data.head.sha,
               state: green ? 'success' : 'failure',
-              context: 'Import PR / sync',
+              context: 'PR notify',
               description: green ? 'Successful' : 'Failed',
               target_url: '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'
             });
