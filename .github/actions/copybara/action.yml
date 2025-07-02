@@ -19,7 +19,7 @@ inputs:
     required: false
     default: ''
   run:
-    description: Command to run (e.g. "migrate project/copy.bara.sky push --dry-run")
+    description: Command to run (e.g. "migrate copy.bara.sky push --dry-run")
     required: true
 
 runs:

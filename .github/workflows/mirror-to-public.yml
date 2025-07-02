@@ -4,7 +4,6 @@ on:
   push:
     paths:
       - "project/**"
-      - "!project/copy.bara.sky"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -25,4 +24,4 @@ jobs:
         uses: ./.github/actions/copybara
         with:
           github_token: ${{ secrets.GH_TOKEN }}
-          run: migrate project/copy.bara.sky push --ignore-noop
+          run: migrate copy.bara.sky push --ignore-noop

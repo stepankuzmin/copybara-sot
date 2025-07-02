@@ -42,7 +42,7 @@ This structure demonstrates how Copybara can manage a subdirectory in a monorepo
 
 ### Core Configuration File
 
-- `project/copy.bara.sky`: Defines two workflows:
+- `copy.bara.sky`: Defines two workflows:
   - `push`: Iterative mode that syncs each commit from SoT to destination
   - `pr`: Change request mode that imports PRs from destination back to SoT
 
@@ -93,24 +93,24 @@ wget https://github.com/google/copybara/releases/download/v20250623/copybara_dep
 ### Validate Configuration
 
 ```bash
-java -jar copybara.jar validate project/copy.bara.sky
+java -jar copybara.jar validate copy.bara.sky
 ```
 
 ### Run Push Workflow (SoT → Destination)
 
 ```bash
 # Initial sync with history
-java -jar copybara.jar migrate project/copy.bara.sky push \
+java -jar copybara.jar migrate copy.bara.sky push \
   --force \
   --ignore-noop \
   --init-history
 
 # Regular sync
-java -jar copybara.jar migrate project/copy.bara.sky push --ignore-noop
+java -jar copybara.jar migrate copy.bara.sky push --ignore-noop
 ```
 
 ### Run PR Workflow (Destination → SoT)
 
 ```bash
-java -jar copybara.jar migrate project/copy.bara.sky pr <PR_NUMBER>
+java -jar copybara.jar migrate copy.bara.sky pr <PR_NUMBER>
 ```

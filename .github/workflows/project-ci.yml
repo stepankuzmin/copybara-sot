@@ -5,7 +5,6 @@ on:
     types: [opened, synchronize, reopened, edited]
     paths:
       - "project/**"
-      - "!project/copy.bara.sky"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -25,7 +24,7 @@ jobs:
         env:
           PR_BODY: ${{ github.event.pull_request.body }}
         with:
-          run: migrate project/copy.bara.sky push ${{ github.ref }} --force-message "$PR_BODY" --squash --dry-run
+          run: migrate copy.bara.sky push ${{ github.ref }} --force-message "$PR_BODY" --squash --dry-run
 
   check:
     runs-on: ubuntu-latest
