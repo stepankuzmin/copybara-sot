@@ -101,14 +101,11 @@ java -jar copybara.jar validate project/copy.bara.sky
 ```bash
 # Initial sync with history
 java -jar copybara.jar migrate project/copy.bara.sky push \
-  --ignore-noop \
   --force \
+  --ignore-noop \
   --init-history
 
 # Regular sync
-java -jar copybara.jar migrate project/copy.bara.sky push
-
-# Sync ignoring no-op changes
 java -jar copybara.jar migrate project/copy.bara.sky push --ignore-noop
 ```
 

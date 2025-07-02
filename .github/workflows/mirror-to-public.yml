@@ -25,4 +25,4 @@ jobs:
         uses: ./.github/actions/copybara
         with:
           github_token: ${{ secrets.GH_TOKEN }}
-          run: migrate project/copy.bara.sky push
+          run: migrate project/copy.bara.sky push --ignore-noop
