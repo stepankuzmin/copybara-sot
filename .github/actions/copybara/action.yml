@@ -5,7 +5,7 @@ inputs:
   version:
     description: Copybara version
     required: false
-    default: 'v20250623'
+    default: 'v20250630'
   git_user_name:
     description: Git user name
     required: false
