@@ -38,14 +38,14 @@
       "type": "required_status_checks",
       "parameters": {
         "strict_required_status_checks_policy": false,
-        "do_not_enforce_on_create": false,
+        "do_not_enforce_on_create": true,
         "required_status_checks": [
           {
             "context": "check",
             "integration_id": 15368
           },
           {
-            "context": "push",
+            "context": "mirror-check",
             "integration_id": 15368
           }
         ]
