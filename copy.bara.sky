@@ -10,7 +10,7 @@ PROJECT_DIR = "project"
 
 # what can be pushed to the destination repo
 PUSH_INCLUDE = [PROJECT_DIR + "/**"]
-PUSH_EXCLUDE = []
+PUSH_EXCLUDE = ["copy.bara.sky"]
 
 # what can be read in the destination PR
 PR_ORIGIN_INCLUDE = ["**"]
