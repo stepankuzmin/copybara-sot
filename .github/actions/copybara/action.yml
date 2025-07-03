@@ -56,7 +56,14 @@ runs:
 
     - name: Run Copybara
       shell: bash
-      run: java -jar copybara.jar ${{ inputs.run }}
+      run: |
+        java -jar copybara.jar ${{ inputs.run }} || exit_code=$?
+        if [ "${exit_code:-0}" -eq 4 ]; then
+          echo "No changes to migrate (exit code 4) - treating as success"
+          exit 0
+        else
+          exit ${exit_code:-0}
+        fi
 
     - name: Reset Git credentials
       if: always()
