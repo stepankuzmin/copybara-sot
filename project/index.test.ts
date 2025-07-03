@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import greet from './index.ts';
 
 test('greet', () => {
-    assert.strictEqual(greet('World'), 'Hello, World!');
+    assert.strictEqual(greet('Stepan'), 'Hello, Stepan!');
 });
 
 test('greet default value', () => {
