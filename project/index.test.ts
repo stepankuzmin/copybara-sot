@@ -6,6 +6,6 @@ test('greet', () => {
     assert.strictEqual(greet('Stepan'), 'Greetings, Stepan!');
 });
 
-test('greet default value', () => {
+test('greet with the default value', () => {
     assert.strictEqual(greet(), 'Greetings, Human!');
 });
