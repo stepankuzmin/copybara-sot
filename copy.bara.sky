@@ -38,7 +38,7 @@ core.workflow(
         core.move(PROJECT_DIR, ""),
         metadata.restore_author("Author", separator=": ", search_all_changes = True),
         metadata.scrubber('^(?:\n|.)*<public>((?:\n|.)*)</public>(?:\n|.)*$', replacement = '$1'),
-        metadata.scrubber("(^|\\s|\\()(#)(\\d+)\\b", replacement = "$1internal-$3"), # replace "#PR" with "internal-PR"
+        metadata.scrubber("(^|\\s|\\()#(\\d+)", replacement = "$1internal-$2"), # replace "#PR" with "internal-PR"
         metadata.scrubber("public-(\\d+)", replacement = "#$1"), # replace "public-PR" with "#PR"
     ]
 )
@@ -78,7 +78,7 @@ core.workflow(
     transformations = [
         core.move("", PROJECT_DIR),
         metadata.replace_message(GITHUB_PR_TEMPLATE),
-        metadata.scrubber("(^|\\s|\\()(#)(\\d+)\\b", replacement = "$1public-$3"), # replace "#PR" with "public-PR"
+        metadata.scrubber("(^|\\s|\\()#(\\d+)", replacement = "$1public-$2"), # replace "#PR" with "public-PR"
         metadata.scrubber("internal-(\\d+)", replacement = "#$1"), # replace "internal-PR" with "#PR"
         metadata.save_author("Author", separator=": "),
     ]
