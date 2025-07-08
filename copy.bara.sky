@@ -37,9 +37,9 @@ core.workflow(
     transformations = [
         core.move(PROJECT_DIR, ""),
         metadata.restore_author("Author", separator=": ", search_all_changes = True),
+        metadata.scrubber('^(?:\n|.)*<public>((?:\n|.)*)</public>(?:\n|.)*$', replacement = '$1'),
         metadata.scrubber("\\(#", replacement = "(internal-"), # replace "(#PR)" with "(internal-PR)"
         metadata.scrubber("\\(public-", replacement = "(#"), # replace "(public-PR)" with "(#PR)"
-        metadata.scrubber('^(?:\n|.)*<public>((?:\n|.)*)</public>(?:\n|.)*$', msg_if_no_match = 'Internal Change', replacement = '$1'),
     ]
 )
 
